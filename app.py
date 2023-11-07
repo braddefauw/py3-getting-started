@@ -49,6 +49,14 @@ def update_recipe(recipe_id):
     db.session.commit()
     return jsonify({"message": "Recipe updated successfully"})
 
+# delete a recipe by ID
+@app.route('/recipes/<int:recipe_id>', methods=['DELETE'])
+def delete_recipe(recipe_id):
+    recipe = Recipe.query.get_or_404(recipe_id)
+    db.session.delete(recipe)
+    db.session.commit()
+    return jsonify({"message": "Recipe deleted successfully"})
+
 # Setting our port
 if __name__ == '__main__':
     app.run(debug=True, port=4000) # set the port to 4000
