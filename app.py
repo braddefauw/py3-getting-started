@@ -29,6 +29,15 @@ def get_recipes():
     recipe_list = [{"id": recipe.id, "name": recipe.name, "ingredients": recipe.ingredients, "instructions": recipe.instructions} for recipe in recipes]
     return jsonify(recipe_list)
 
+# Create a new recipe
+@app.route('/recipes', methods=['POST'])
+def create_recipe():
+    data = request.json
+    new_recipe = Recipe(name=data['name'], ingredients=data['ingredients'], instructions=data['instructions'])
+    db.session.add(new_recipe)
+    db.session.commit()
+    return jsonify({"message": "Recipe created successfully"})
+
 # Setting our port
 if __name__ == '__main__':
     app.run(debug=True, port=4000) # set the port to 4000
