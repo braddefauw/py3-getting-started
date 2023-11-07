@@ -38,6 +38,17 @@ def create_recipe():
     db.session.commit()
     return jsonify({"message": "Recipe created successfully"})
 
+# Update a recipe by ID
+@app.route('/recipes/<int:recipe_id>', methods=['PUT'])
+def update_recipe(recipe_id):
+    recipe = Recipe.query.get_or_404(recipe_id)
+    data = request.json
+    recipe.name = data['name']
+    recipe.ingredients = data['ingredients']
+    recipe.instructions = data['instructions']
+    db.session.commit()
+    return jsonify({"message": "Recipe updated successfully"})
+
 # Setting our port
 if __name__ == '__main__':
     app.run(debug=True, port=4000) # set the port to 4000
